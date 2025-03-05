@@ -11,7 +11,7 @@ runs:
       with:
         repository: 'nvaccess/nvda'
         submodules: true
-        ref: ${{ github.ref }}
+        ref: ${{ github.head_ref }}
     - name: Install dependencies
       id: setupPython
       uses: actions/setup-python@v5
