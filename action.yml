@@ -1,0 +1,23 @@
+name: Build NVDA
+
+description: 'Builds NVDA'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout NVDA
+      uses: actions/checkout@v4
+      with:
+        repository: 'nvaccess/nvda'
+        submodules: true
+    - name: Install dependencies
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        architecture: x86
+    - name: Set version variables
+      run: powershell.exe ci/scripts/setBuildVersionVars.ps1
+    - name: Set scons args
+      run: powershell.exe ci/scripts/setSconsArgs.ps1
+    - name: Prepare source code
+      run: scons source %sconsArgs% --all-cores
