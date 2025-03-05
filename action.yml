@@ -31,7 +31,8 @@ runs:
       shell: cmd
     - name: Pull changes
       if: ${{ steps.cacheDependencies.outputs.cache-hit == 'true' }}
-      run: git pull
+      run: |
+        git merge origin/${{ github.ref {}
       shell: cmd
     - name: Set scons args
       if: ${{ steps.cacheDependencies.outputs.cache-hit != 'true' }}
