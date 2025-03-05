@@ -12,10 +12,18 @@ runs:
         repository: 'nvaccess/nvda'
         submodules: true
     - name: Install dependencies
+      id: setupPython
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
         architecture: x86
+        cache: pipenv
+        cache-dependency-path: |
+          requirements.txt
+    - name: Exit if dependencies are cached
+      if: ${{ steps.setupPython.outputs.cache-hit == 'true' }}
+      run: exit 0
+      shell: cmd
     - name: Set version variables
       run: powershell.exe ci/scripts/setBuildVersionVars.ps1
       shell: cmd
