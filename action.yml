@@ -18,9 +18,12 @@ runs:
       with:
         python-version: '3.11'
         architecture: x86
-        cache: pipenv
-        cache-dependency-path: |
-          requirements.txt
+    - name: Cache dependencies
+      uses: actions/cache@v4
+        with:
+        path: |
+          .venv
+      key: ${{ runner.os }}-${{ hashFiles('requirements.txt') }}
     - name: Exit if dependencies are cached
       if: ${{ steps.setupPython.outputs.cache-hit == 'true' }}
       run: exit 0
