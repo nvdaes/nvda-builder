@@ -4,6 +4,7 @@ description: 'Builds NVDA'
 
 runs:
   using: "composite"
+  shell: cmd
   steps:
     - name: Checkout NVDA
       uses: actions/checkout@v4
