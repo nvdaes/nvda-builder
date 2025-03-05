@@ -13,19 +13,19 @@ runs:
         submodules: true
         ref: ${{ github.head_ref }}
     - name: Install dependencies
-      id: setupPython
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
         architecture: x86
     - name: Cache dependencies
+      id: cacheDependencies
       uses: actions/cache@v4
       with:
         path: |
           .venv
         key: ${{ runner.os }}-${{ hashFiles('requirements.txt') }}
     - name: Exit if dependencies are cached
-      if: ${{ steps.setupPython.outputs.cache-hit == 'true' }}
+      if: ${{ steps.cacheDependencies.outputs.cache-hit == 'true' }}
       run: exit 0
       shell: cmd
     - name: Set version variables
