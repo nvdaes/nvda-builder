@@ -23,10 +23,15 @@ runs:
       with:
         path: |
           .venv
-        key: ${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+          source
+        key: ${{ runner.os }}-${{ hashFiles('requirements.txt', 'source/locale/**/*.po') }}
     - name: Set version variables
       if: ${{ steps.cacheDependencies.outputs.cache-hit != 'true' }}
       run: powershell.exe ci/scripts/setBuildVersionVars.ps1
+      shell: cmd
+    - name: Pull changes
+      if: ${{ steps.cacheDependencies.outputs.cache-hit == 'true' }}
+      run: git pull
       shell: cmd
     - name: Set scons args
       if: ${{ steps.cacheDependencies.outputs.cache-hit != 'true' }}
