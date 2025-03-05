@@ -24,16 +24,15 @@ runs:
         path: |
           .venv
         key: ${{ runner.os }}-${{ hashFiles('requirements.txt') }}
-    - name: Exit if dependencies are cached
-      if: ${{ steps.cacheDependencies.outputs.cache-hit == 'true' }}
-      run: exit 0
-      shell: cmd
     - name: Set version variables
+      if: ${{ steps.cacheDependencies.outputs.cache-hit != 'true' }}
       run: powershell.exe ci/scripts/setBuildVersionVars.ps1
       shell: cmd
     - name: Set scons args
+      if: ${{ steps.cacheDependencies.outputs.cache-hit != 'true' }}
       run: powershell.exe ci/scripts/setSconsArgs.ps1
       shell: cmd
     - name: Prepare source code
+      if: ${{ steps.cacheDependencies.outputs.cache-hit != 'true' }}
       run: scons source %sconsArgs% --all-cores
       shell: cmd
