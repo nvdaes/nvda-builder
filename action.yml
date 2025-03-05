@@ -9,7 +9,7 @@ runs:
     - name: Checkout NVDA
       uses: actions/checkout@v4
       with:
-        repository: 'nvaccess/nvda'
+        repository: 'nvdaes/nvda'
         submodules: true
         ref: ${{ github.head_ref }}
     - name: Install dependencies
